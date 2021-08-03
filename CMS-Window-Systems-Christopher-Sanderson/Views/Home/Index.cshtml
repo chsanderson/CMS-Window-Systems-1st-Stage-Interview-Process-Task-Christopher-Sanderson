@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model Byte[]
+@model KeyValuePair<string, Byte[]>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -11,12 +11,26 @@
             <button type="submit" id="btn_barcodeInput">Generate Barcode</button>
         </form>
     </div>
-    <div id="qrcode">
-        @if (Model != null)
-        {
-            <h3>QR Code Successfully Generated</h3>
-            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model))" />
-        }
-    </div>
+    @if (Model.Value != null)
+    {
+        <div id="qrcode" name="qrcode" style="color:white;">
 
+            <h3>QR Code Successfully Generated</h3>
+            @*@foreach (KeyValuePair<string, Byte[]> i in Model)
+                {*@
+            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Value))" />
+            <span>@Model.Key</span>
+            @*//}
+                <h3 style="float:right; vertical-align:middle;color:black">Castlecary Road 1</h3>
+                    <h3 style="float: right; vertical-align: middle; color: black">CMS Enviro ltd</h3>*@
+        </div>
+
+    }
+    else
+    {
+        <div id="qrcode" name="qrcode" style="color:white; display:none;">
+
+        </div>
+
+    }
 </div>

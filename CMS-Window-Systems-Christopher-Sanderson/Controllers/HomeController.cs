@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 using QRCoder;
+using System.Drawing.Printing;
 
 namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
 {
@@ -43,7 +44,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,7);
+                JobKeyID = qrText.ToString().Substring(0,8);
             }
             else if (qrText.ToString().Length == 10)
             {
@@ -56,7 +57,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,6);
+                JobKeyID = qrText.ToString().Substring(0,7);
             }
             else if (qrText.ToString().Length == 9)
             {
@@ -69,7 +70,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,5);
+                JobKeyID = qrText.ToString().Substring(0,6);
             }
             else if (qrText.ToString().Length == 8)
             {
@@ -82,7 +83,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,4);
+                JobKeyID = qrText.ToString().Substring(0,5);
             }
             else if (qrText.ToString().Length == 7)
             {
@@ -95,7 +96,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,3);
+                JobKeyID = qrText.ToString().Substring(0,4);
             }
             else if (qrText.ToString().Length == 6)
             {
@@ -108,7 +109,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,2);
+                JobKeyID = qrText.ToString().Substring(0,3);
             }
             else if (qrText.ToString().Length == 5)
             {
@@ -121,7 +122,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 {
                     ItemKeyID = ItemKeyID.Substring(1);
                 }
-                JobKeyID = qrText.ToString().Substring(0,1);
+                JobKeyID = qrText.ToString().Substring(0,2);
             }
             else
             {
@@ -141,16 +142,73 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
             QRCodeData qRCodeData = qRGenerator.CreateQrCode(qrWebUri, QRCodeGenerator.ECCLevel.Q);
             QRCode qRCode = new QRCode(qRCodeData);
             Bitmap qRCodeImage = qRCode.GetGraphic(20);
-            QRCodeData = qRGenerator.CreateQrCode()
-        return View(BitmapToBytes(qRCodeImage));
-        }
+            string CompanyAndAddress = "Castlecary Road 1 CMS Enviro ltd";
+            Byte[] byteData = BitmapToBytes(qRCodeImage);
 
-        private static Byte[] BitmapToBytes(Bitmap img)
+            KeyValuePair<string, Byte[]> qrKVP  = new KeyValuePair<string, byte[]>(CompanyAndAddress, byteData);
+
+            //qrKVP.Key = CompanyAndAddress;
+            //qrKVP.Value = byteData;
+            return View(qrKVP);
+
+        //return View(BitmapToBytes(qRCodeImage));
+        }
+                StreamReader streamToPrint;
+        private Byte[] BitmapToBytes(Bitmap img)
         {
             using (MemoryStream stream = new MemoryStream())
             {
                 img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                //img.Save(stream, System.Drawing.Imaging.("Castlecary Road 1 CMS Enviro ltd"));
+                try
+                {
+                    //Print The file
+                    streamToPrint = new StreamReader(String.Format("data:image/png;base64,{0}", Convert.ToBase64String(stream.ToArray())));
+                    try
+                    {
+                        printFont = new Font("Arial", 10);
+                        PrintDocument pd = new PrintDocument();
+                        pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+                        pd.Print();
+                    }
+                    finally
+                    {
+                        streamToPrint.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
                 return stream.ToArray();
+            }
+        }
+        Font printFont;
+
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            float linesPerPage = 0;
+            float ypos = 0;
+            int count = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+            String line = null;
+
+            linesPerPage = ev.MarginBounds.Height / printFont.GetHeight(ev.Graphics);
+
+            while(count < linesPerPage && ((line=streamToPrint.ReadLine()) != null))
+            {
+                ypos = topMargin + (count * printFont.GetHeight(ev.Graphics));
+                ev.Graphics.DrawString(line, printFont, Brushes.Black, leftMargin, ypos, new StringFormat());
+                count++;
+            }
+            if (line != null)
+            {
+                ev.HasMorePages = true;
+            }
+            else
+            {
+                ev.HasMorePages = false;
             }
         }
         [HttpGet]

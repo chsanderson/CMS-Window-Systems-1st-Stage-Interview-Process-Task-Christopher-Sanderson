@@ -2,3 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+    var qrcode = document.getElementById("qrcode");
+    if(qrcode.style.display != "none") {
+    window.print();
+    }

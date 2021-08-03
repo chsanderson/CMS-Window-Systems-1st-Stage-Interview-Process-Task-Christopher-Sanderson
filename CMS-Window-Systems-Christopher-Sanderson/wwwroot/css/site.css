@@ -138,12 +138,17 @@ h3 {
     width: 100%;
 }
 
-    #viewContent table tr {
-        height: 80px;
-        background: darkcyan;
-    }
+#viewContent table tr {
+    height: 80px;
+    background: darkcyan;
+}
 
-        #viewContent table tr td {
-            width: 50%;
-            padding-left: 5px;
-        }
+#viewContent table tr td {
+       width: 50%;
+       padding-left: 5px;
+}
+img 
+{
+    width:2.5cm;
+    height:5cm;
+}
