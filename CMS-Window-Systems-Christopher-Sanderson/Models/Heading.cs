@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Christopher Sanderson
+//CMS-Window-Systems-Christopher-Sanderson
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,8 +13,9 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Models
         [Key]
         public int ID { get; set; }
         [MaxLength(8)]
-        public int JobKeyID { get; set; }
-        [DataType(DataType.Date)]
+        public long JobKeyID { get; set; }
+        //public int JobKeyID { get; set; }
+
         public DateTime DateInProduction { get; set; }
     }
 }
