@@ -5,4 +5,9 @@
     <RootNamespace>CMS_Window_Systems_Christopher_Sanderson</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
+    <PackageReference Include="QRCoder" Version="1.4.1" />
+  </ItemGroup>
+
 </Project>

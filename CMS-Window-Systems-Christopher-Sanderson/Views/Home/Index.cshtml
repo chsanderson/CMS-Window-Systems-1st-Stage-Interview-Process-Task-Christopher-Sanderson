@@ -1,8 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model Byte[]
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="text-center">
+        <form method="post" asp-action="Index" asp-controller="Home">
+            <input type="number" id="qrText" name="qrText" placeholder="00000001001" maxlength="11" />
+            <button type="submit" id="btn_barcodeInput">Generate Barcode</button>
+        </form>
+    </div>
+    <div id="qrcode">
+        @if (Model != null)
+        {
+            <h3>QR Code Successfully Generated</h3>
+            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model))" />
+        }
+    </div>
+
 </div>
