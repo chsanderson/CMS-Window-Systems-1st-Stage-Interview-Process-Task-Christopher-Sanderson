@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CMS_Window_Systems_Christopher_Sanderson.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace CMS_Window_Systems_Christopher_Sanderson
 {
@@ -24,6 +28,8 @@ namespace CMS_Window_Systems_Christopher_Sanderson
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddTransient<QRTableInterface, QRTableEntityFramework>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CMS-Window-Systems-Christopher-Sanderson")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

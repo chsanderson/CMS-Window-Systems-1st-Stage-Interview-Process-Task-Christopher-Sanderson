@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[5.0.8, )"
             },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.8, )"
+            },
             "QRCoder": {
               "target": "Package",
               "version": "[1.4.1, )"
