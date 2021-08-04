@@ -138,7 +138,7 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 }
                 JobKeyID = qrText.ToString().Substring(0,2);
             }
-            else
+            else if (qrText.ToString().Length == 4)
             {
                 ItemKeyID = qrText.ToString().Substring(1);
                 if (ItemKeyID.StartsWith('0'))
@@ -151,7 +151,12 @@ namespace CMS_Window_Systems_Christopher_Sanderson.Controllers
                 }
                 JobKeyID = qrText.ToString().Substring(0,1);
             }
-
+            else
+            {
+                IndexVM.barcode = 0;
+                IndexVM.isKVP = false;
+                return View(IndexVM);
+            }
             //this variable has been created to store the URL as a string ad also allows the insert of the JobKeyID and the ItemKeyID in their string form
             string qrWebUri = "https://www.mywebsite.com/q?JobKeyID="+ JobKeyID + ",ItemKeyID="+ ItemKeyID;
             //this generates an instace of a  QR code

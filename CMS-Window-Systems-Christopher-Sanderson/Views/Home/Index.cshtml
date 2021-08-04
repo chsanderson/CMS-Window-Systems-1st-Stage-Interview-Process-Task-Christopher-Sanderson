@@ -5,7 +5,7 @@
 @model IndexViewModel
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome - enter the barcode</h1>
     <div class="text-center">
         <form method="post" asp-action="Index" asp-controller="Home">
             <input type="text" asp-for="barcode" id="qrText" placeholder="01010101010" minlength="4" maxlength="11" />
@@ -14,16 +14,16 @@
     </div>
     @if(Model.isKVP == true)@*Model.qrKVP.Key == "Castlecary Road 1 CMS Enviro ltd")*@
     {
-        <div id="qrcode" name="qrcode" style="color:white;">
-            <h3>QR Code Successfully Generated</h3>
-            foreach (KeyValuePair<string, byte[]> i in Model.qrKVP)
-            {
-                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.qrKVP.Value))" />
-                <span>@Model.qrKVP.Key</span>
-            }
-            <h3 style="float:right; vertical-align:middle;color:black">Castlecary Road 1</h3>
-            <h3 style="float: right; vertical-align: middle; color: black">CMS Enviro ltd</h3>
-        </div>
+<div id="qrcode" name="qrcode" style="color:white;">
+    <h3>QR Code Successfully Generated</h3>
+    @*foreach (KeyValuePair<string, byte[]> i in Model.qrKVP)
+        {*@
+    <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.qrKVP.Value))" />
+    <span>@Model.qrKVP.Key</span>
+    @*}
+        <h3 style="float:right; vertical-align:middle;color:black">Castlecary Road 1</h3>
+        <h3 style="float: right; vertical-align: middle; color: black">CMS Enviro ltd</h3>*@
+</div>
     }
     else
     {

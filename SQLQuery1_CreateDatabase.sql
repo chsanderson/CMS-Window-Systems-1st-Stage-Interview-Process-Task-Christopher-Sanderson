@@ -1,1 +1,1 @@
-﻿CREATE DATABASE CMSWindowSystems1stStageInterviewProcessTaskChristopherSanderson;
+﻿CREATE DATABASE CMSWindowSystemsChristopherSanderson;
